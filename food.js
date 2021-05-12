@@ -3,15 +3,20 @@ import {randomGridPosition} from './grid.js'
 
 let food = getRandomFoodPosition();
 const EXPANSION_RATE = 1;
+let snakeGrowSound =  new Howl({
+    src:['sounds/food-eat.wav']
+})
 
 export function update(){
     if(onSnake(food)){
+        snakeGrowSound.play();
         expandSnake(EXPANSION_RATE)
         food = getRandomFoodPosition();
     }
 }
 
 export function draw(gameBoard){
+        
         const foodElement = document.createElement('div');
         foodElement.style.gridRowStart = food.y;
         foodElement.style.gridColumnStart = food.x;
@@ -21,6 +26,7 @@ export function draw(gameBoard){
 
 function getRandomFoodPosition(){
     let newFoodPosition;
+    
     while(newFoodPosition == null || onSnake(newFoodPosition)){
         newFoodPosition = randomGridPosition()
     }
